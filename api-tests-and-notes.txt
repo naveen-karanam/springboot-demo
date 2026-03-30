@@ -1,0 +1,58 @@
+API TESTING (CURL EXAMPLES)
+
+1. Create Table
+
+curl -X POST http://localhost:8080/tables \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "customers",
+  "columns": [
+    { "name": "name", "type": "string" },
+    { "name": "age", "type": "number" },
+    { "name": "active", "type": "boolean" }
+  ]
+}'
+
+
+2. Insert Row
+
+curl -X POST http://localhost:8080/tables/1/rows \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "Alice",
+  "age": 30,
+  "active": true
+}'
+
+
+3. Get Rows
+
+curl http://localhost:8080/tables/1/rows
+
+
+
+DATA STORAGE DESIGN
+
+The application uses a relational SQL database (SQLite) to persist data.
+
+- Table entity stores table metadata (name, ID)
+- Column entity defines schema for each table (name, type)
+- Row entity stores row data using a flexible structure
+
+This approach allows dynamic schema creation while still using SQL for persistence.
+
+
+
+TRADEOFFS & IMPROVEMENTS
+
+Tradeoffs:
+- Dynamic schema adds complexity
+- Type validation handled at application level
+- SQLite is not ideal for high concurrency
+
+Improvements (with more time):
+- Add pagination and filtering
+- Improve validation and error handling
+- Add indexing for performance
+- Use PostgreSQL for scalability
+- Add authentication and security
